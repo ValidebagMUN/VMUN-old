@@ -7,8 +7,16 @@ on:
     branches: [ "main", "dev" ]
 
 jobs:
-  build:
+  show_env:
+    name: "Show environment variables"
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: "Show environmetn variables"
+        run: |
+          env
+          
+  build:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
