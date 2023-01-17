@@ -41,6 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'conference',
+    'committee',
+    'caucus',
+    'resolution',
+    'gsl',
 ]
 
 MIDDLEWARE = [
@@ -80,8 +85,12 @@ WSGI_APPLICATION = 'VMUN.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'vmun_test',
+        'USER': 'hexabinary',
+        'PASSWORD': '1907&0308egeA',
+        'HOST': 'localhost', 
+        'PORT': '5432',
     }
 }
 
