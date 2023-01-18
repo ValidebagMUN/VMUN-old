@@ -4,7 +4,7 @@ from conference.models import Session
 
 # Create your models here.
 class Committee(models.Model):
-    abv     = models.CharField(max_length=10, help_text="Abbreviation of the committee")
+    slug    = models.SlugField(help_text="Abbreviation of the committee", verbose_name="Abbreviation")
     title   = models.CharField(max_length=100, help_text="Title of the committee")
     desc    = models.TextField(help_text="Description of the committee")
     chair   = models.IntegerField(help_text="Id of the chair of the committee")
@@ -13,7 +13,7 @@ class Committee(models.Model):
     guide   = models.CharField(max_length=150, help_text="URL to the study guide for the committee")
 
     def __str__(self):
-        return self.abv
+        return self.slug
     class Meta:
         verbose_name = "committee"
         verbose_name_plural = "committees"

@@ -10,15 +10,6 @@ env:
   SECRET_KEY: ${{ vars.SECRET_KEY}}
 
 jobs:
-  show_env:
-    name: "Show environment variables"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: "Show environment variables"
-        run: |
-          env
-
   build:
     runs-on: ubuntu-latest
     strategy:

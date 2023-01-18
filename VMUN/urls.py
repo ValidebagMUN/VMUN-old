@@ -16,8 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
+from conference.views import home_view
 
 urlpatterns = [
+    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls')),
+
+    #Conference urls
+    path('<slug:conference_slug>/', include('conference.urls')),
 ]

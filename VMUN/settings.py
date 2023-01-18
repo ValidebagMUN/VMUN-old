@@ -32,7 +32,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-if not env("CI"):
+if env('CI') != 'true':
     SERVER_EMAIL = env('DEFAULT_FROM_EMAIL')
     DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
     EMAIL_HOST = env('EMAIL_HOST')
@@ -48,13 +48,20 @@ INTERNAL_IPS = [
 # Application definition
 
 INSTALLED_APPS = [
+    #Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #3rd Party Apps
+    'jquery',
+    'rest_framework',
     'debug_toolbar',
+
+    #Local Apps
     'conference',
     'committee',
     'participants',
@@ -80,7 +87,7 @@ ROOT_URLCONF = 'VMUN.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,11 +102,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'VMUN.wsgi.application'
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.1/howto/static-files/
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = 'static/'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if not env("CI"):
+if env('CI') != 'true':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -141,13 +154,6 @@ TIME_ZONE = 'Asia/Istanbul'
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
