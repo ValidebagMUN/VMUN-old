@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
+import conference
 from conference.views import home_view
 
 urlpatterns = [
