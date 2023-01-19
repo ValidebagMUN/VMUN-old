@@ -25,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = bool(int(env('DEBUG')))
+print(DEBUG)
+ALLOWED_HOSTS = ['*']
 
 if env('CI') != 'true':
     SERVER_EMAIL = env('DEFAULT_FROM_EMAIL')
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'jquery',
     'rest_framework',
     'debug_toolbar',
+    'bootstrap5',
 
     #Local Apps
     'conference',
@@ -95,6 +96,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'VMUN.context_processors.get_settings',
             ],
         },
     },
