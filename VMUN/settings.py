@@ -135,16 +135,17 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
         "default": dj_database_url.parse(os.getenv("DATABASE_URL")),
     }
 
-if not DEBUG:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-            'LOCATION': os.getenv('REDIS_URL'),
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            }
-        }
-    }
+# if not DEBUG:
+#    CACHES = {
+#        'default': {
+#            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#            'LOCATION': os.getenv('REDIS_URL'),
+#            'OPTIONS': {
+#                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#            }
+#        }
+#    }
+#    SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
