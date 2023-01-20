@@ -121,7 +121,7 @@ STATIC_URL = 'static/'
 print(DEBUG)
 
 if DEBUG:
-    DATABASES = 
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': env("DB_NAME"),
