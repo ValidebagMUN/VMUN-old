@@ -74,6 +74,11 @@ INSTALLED_APPS = [
     'institution',
 ]
 
+# Security
+
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_SSL_REDIRECT = not DEBUG
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
