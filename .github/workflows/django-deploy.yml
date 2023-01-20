@@ -20,6 +20,7 @@ env:
   EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
   EMAIL_PORT: ${{ vars.EMAIL_PORT }}
   EMAIL_USE_TLS: ${{ vars.EMAIL_USE_TLS }}
+  TEST_VAR: ${{ vars.TEST_VAR }}
 
 jobs:
   build:
