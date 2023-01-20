@@ -2,10 +2,10 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    #Conference Home
+    # Conference Home
     path('', views.home_view, name='home'),
-    #Other URLS
+    # Other URLS
 
-    #Committee URLs
+    # Committee URLs
     path('<slug:committee_slug>/', include('committee.urls')),
 ]

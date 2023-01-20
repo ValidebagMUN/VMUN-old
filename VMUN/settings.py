@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+from django.core.management.utils import get_random_secret_key
 import os
 
 from pathlib import Path
@@ -20,7 +21,6 @@ env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -28,18 +28,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(env('DEBUG')))
-print(DEBUG)
+DEBUG = env('DEBUG').lower() == 'true'
+
 ALLOWED_HOSTS = ['*']
 
 if env('CI') != 'true':
-    SERVER_EMAIL = env('DEFAULT_FROM_EMAIL')
-    DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
-    EMAIL_HOST = env('EMAIL_HOST')
-    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-    EMAIL_PORT = env('EMAIL_PORT')
-    EMAIL_USE_TLS = env('EMAIL_USE_TLS').lower() == 'true'
+    SERVER_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+    EMAIL_HOST = os.getenv('EMAIL_HOST')
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = os.getenv('EMAIL_PORT')
+    EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS').lower() == 'true'
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -48,7 +48,7 @@ INTERNAL_IPS = [
 # Application definition
 
 INSTALLED_APPS = [
-    #Django Apps
+    # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,13 +56,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #3rd Party Apps
+    # 3rd Party Apps
     'jquery',
     'rest_framework',
     'debug_toolbar',
     'bootstrap5',
 
-    #Local Apps
+    # Local Apps
     'conference',
     'committee',
     'participants',
@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'resolution',
     'gsl',
     'api',
+    'institution',
 ]
 
 MIDDLEWARE = [
@@ -107,7 +108,12 @@ WSGI_APPLICATION = 'VMUN.wsgi.application'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+if DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+else:
+    STATIC_ROOT = '/var/www/vmun/static'
+
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = 'static/'
 
@@ -115,17 +121,28 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 if env('CI') != 'true':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': env("DB_NAME"),
-            'USER': env("DB_USER"),
-            'PASSWORD': env("DB_PASSWORD"),
-            'HOST': env("DB_HOST"),
-            'PORT': env("DB_PORT"),
+    if DEBUG:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': env("DB_NAME"),
+                'USER': env("DB_USER"),
+                'PASSWORD': env("DB_PASSWORD"),
+                'HOST': env("DB_HOST"),
+                'PORT': env("DB_PORT"),
+            }
         }
-    }
-
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': os.getenv("DB_NAME"),
+                'USER': os.getenv("DB_USER"),
+                'PASSWORD': os.getenv("DB_PASSWORD"),
+                'HOST': os.getenv("DB_HOST"),
+                'PORT': os.getenv("DB_PORT"),
+            }
+        }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -144,7 +161,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

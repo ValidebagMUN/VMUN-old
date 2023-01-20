@@ -24,6 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls')),
 
-    #Conference urls
+    # Conference urls
     path('<slug:conference_slug>/', include('conference.urls')),
 ]
