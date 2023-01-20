@@ -25,20 +25,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('vars.SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG').lower() == 'true'
+DEBUG = os.getenv('vars.DEBUG').lower() == 'true'
 
 ALLOWED_HOSTS = ['*']
 
-SERVER_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS').lower() == 'true'
+SERVER_EMAIL = os.getenv('vars.DEFAULT_FROM_EMAIL')
+DEFAULT_FROM_EMAIL = os.getenv('vars.DEFAULT_FROM_EMAIL')
+EMAIL_HOST = os.getenv('vars.EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('vars.EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('vars.EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('vars.EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('vars.EMAIL_USE_TLS').lower() == 'true'
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -122,11 +122,11 @@ STATIC_URL = 'static/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("DB_NAME"),
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': os.getenv("DB_HOST"),
-        'PORT': os.getenv("DB_PORT"),
+        'NAME': os.getenv("vars.DB_NAME"),
+        'USER': os.getenv("vars.DB_USER"),
+        'PASSWORD': os.getenv("vars.DB_PASSWORD"),
+        'HOST': os.getenv("vars.DB_HOST"),
+        'PORT': os.getenv("vars.DB_PORT"),
     }
 }
 
