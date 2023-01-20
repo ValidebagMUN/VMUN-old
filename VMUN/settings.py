@@ -32,14 +32,13 @@ DEBUG = env('DEBUG').lower() == 'true'
 
 ALLOWED_HOSTS = ['*']
 
-if env('CI') != 'true':
-    SERVER_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
-    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
-    EMAIL_HOST = os.getenv('EMAIL_HOST')
-    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-    EMAIL_PORT = os.getenv('EMAIL_PORT')
-    EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS').lower() == 'true'
+SERVER_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS').lower() == 'true'
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -120,29 +119,28 @@ STATIC_URL = 'static/'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if env('CI') != 'true':
-    if DEBUG:
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': env("DB_NAME"),
-                'USER': env("DB_USER"),
-                'PASSWORD': env("DB_PASSWORD"),
-                'HOST': env("DB_HOST"),
-                'PORT': env("DB_PORT"),
-            }
+if DEBUG:
+    DATABASES = 
+        'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': env("DB_NAME"),
+           'USER': env("DB_USER"),
+           'PASSWORD': env("DB_PASSWORD"),
+           'HOST': env("DB_HOST"),
+           'PORT': env("DB_PORT"),
         }
-    else:
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': os.getenv("DB_NAME"),
-                'USER': os.getenv("DB_USER"),
-                'PASSWORD': os.getenv("DB_PASSWORD"),
-                'HOST': os.getenv("DB_HOST"),
-                'PORT': os.getenv("DB_PORT"),
-            }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv("DB_NAME"),
+            'USER': os.getenv("DB_USER"),
+            'PASSWORD': os.getenv("DB_PASSWORD"),
+            'HOST': os.getenv("DB_HOST"),
+            'PORT': os.getenv("DB_PORT"),
         }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
