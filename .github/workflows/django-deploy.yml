@@ -20,6 +20,7 @@ env:
   EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
   EMAIL_PORT: ${{ vars.EMAIL_PORT }}
   EMAIL_USE_TLS: ${{ vars.EMAIL_USE_TLS }}
+  TEST_VAR: ${{ vars.TEST_VAR }}
 
 jobs:
   build:
@@ -29,7 +30,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.8, 3.9, '3.10']
+        python-version: [ '3.8', '3.9', '3.10' ]
         environment: [Production]
         
     steps:
