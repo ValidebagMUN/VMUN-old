@@ -118,12 +118,11 @@ STATIC_URL = 'static/'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-print(DEBUG)
 
 if DEBUG:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': env("DB_NAME"),
             'USER': env("DB_USER"),
             'PASSWORD': env("DB_PASSWORD"),
@@ -134,7 +133,7 @@ if DEBUG:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv("DB_NAME"),
             'USER': os.getenv("DB_USER"),
             'PASSWORD': os.getenv("DB_PASSWORD"),
