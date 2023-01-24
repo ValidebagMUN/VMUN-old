@@ -17,10 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
 import conference
-from conference.views import home_view
+from .views import home_view
+from .views import login_view
 
 urlpatterns = [
     path('', home_view, name='home'),
+    path('login/', login_view, name='login'),
+    path('jet/', include('jet.urls', 'jet')),
+    path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls')),
 
