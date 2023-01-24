@@ -4,9 +4,6 @@
     {% if not DEBUG %}
     <script>
         window.dataLayer = window.dataLayer || [];
-    </script>
-    <!-- Google Tag Manager -->
-    <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({
@@ -22,32 +19,45 @@
         })
         (window, document, 'script', 'dataLayer', 'GTM-NHZW88T');
     </script>
-    <!-- End Google Tag Manager -->
     {% endif %}
-
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
 
-    <title>{% block title %}No Title{% endblock %}</title>
+    {% load static %}
+    <link rel="license" href="{% static 'LICENSE' %}">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'vmun/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'mdb/css/mdb.min.css' %}">
+
+    <title>{% block title %}VMUN by ValidebagMUN{% endblock %}</title>
 </head>
 <body>
-{% if not DEBUG %}
-<!-- Google Tag Manager (noscript) -->
-<noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NHZW88T" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
-{% endif %}
+    {% if not DEBUG %}
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NHZW88T" height="0" width="0"
+                style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    {% endif %}
 
-{% block nav%}{% include 'nav/navbar.html' %}{% endblock %}
+    <header>
+        {% block navbar %}{% include 'nav/navbar_public.html' %}{% endblock %}
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
-{% block content %}{% endblock %}
+    {% block footer%}{% include 'footer.html' %}{% endblock %}
 
-{% block footer%}{% include 'footer.html' %}{% endblock %}
+    <script src="{% static 'jquery/jquery-3.6.3.min.js' %}"></script>
+    <script src="{% static 'popper/popper.min.js' %}"></script>
+    <script src="{% static 'fontawesome/js/all.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'mdb/js/mdb.min.js' %}"></script>
 </body>
 </html>
