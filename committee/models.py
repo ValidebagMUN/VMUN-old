@@ -1,6 +1,5 @@
 from django.db import models
-from conference.models import Session
-
+from conference.models import Session, Conference
 
 # Create your models here.
 class Committee(models.Model):
@@ -11,6 +10,7 @@ class Committee(models.Model):
     active = models.BooleanField(default=True)
     agenda = models.CharField(max_length=100),
     guide = models.CharField(max_length=150, help_text='URL to the study guide for the committee')
+    conference = models.ForeignKey(Conference, on_delete=models.CASCADE, help_text='Conference of the committee')
 
     def __str__(self):
         return self.slug
