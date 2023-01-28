@@ -3,4 +3,10 @@ from .models import Institution
 
 # Register your models here.
 
-admin.site.register(Institution)
+
+class InstitutionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'email')
+    search_fields = ('name', 'slug', 'email')
+
+
+admin.site.register(Institution, InstitutionAdmin)

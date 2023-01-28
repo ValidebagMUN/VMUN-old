@@ -22,10 +22,13 @@ from .views import login_view
 
 urlpatterns = [
     path('', home_view, name='home'),
+    path('api/', include('api.urls'), name='api'),
     path('login/', login_view, name='login'),
     path('jet/', include('jet.urls', 'jet')),
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
+    
+    path("__reload__/", include("django_browser_reload.urls")),
     path('__debug__/', include('debug_toolbar.urls')),
 
     # Conference urls
