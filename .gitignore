@@ -51,8 +51,8 @@ share/python-wheels/
 MANIFEST
 */migrations/0*
 __pycache__/
-*/__pycache__
 staticfiles/
+*/__pycache__/*.pyc
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

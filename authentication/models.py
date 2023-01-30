@@ -25,8 +25,6 @@ class UserAccountManager(BaseUserManager):
             email = self.normalize_email(email), 
             password = password
         )
-        user.is_admin = True
-        user.is_staff = True
         user.is_superuser = True
         user.save(using = self._db)
         return user
@@ -44,26 +42,15 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length = 200, unique = True)
     phone = models.CharField(max_length = 20, unique = True, null = True)
     is_active = models.BooleanField(default = True)
-    is_admin = models.BooleanField(default = False)
-    is_staff = models.BooleanField(default = False)
     is_superuser = models.BooleanField(default = False)
       
-    # special permission which define that
-    # the new user is teacher or student 
-    is_delegate = models.BooleanField(default = False)
-    is_chairperson = models.BooleanField(default = False)
-    is_assistant = models.BooleanField(default = False)
-      
     USERNAME_FIELD = "email"
-      
+    
     # defining the manager for the UserAccount model
     objects = UserAccountManager()
       
     def __str__(self):
         return str(self.name)
-
-    def has_perm(self , perm, obj = None):
-        return self.is_admin
       
     def has_module_perms(self , app_label):
         return True
@@ -94,14 +81,13 @@ class DelegateManager(models.Manager):
         return queryset  
 
 class DelegateProxy(UserAccount):
-    is_delegate = True
     class Meta :
         proxy = True
     objects = DelegateManager()
       
     def save(self  , *args , **kwargs):
         self.type = UserAccount.Types.DELEGATE
-        self.is_teacher = True
+        self.is_superuser = False
         return super().save(*args , **kwargs)
 
 class Delegate(DelegateProxy):
@@ -109,7 +95,7 @@ class Delegate(DelegateProxy):
     delegation = models.ForeignKey(Delegation, on_delete=models.CASCADE, help_text='Delegation of the delegate', blank=True, null=True)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE, help_text='Institution of the delegate')
     country = models.CharField(max_length=40, help_text='Country allocation of the delegate', blank=True, null=True)
-
+    
     def isInCommittee(self, *args, **kwargs):
         return self.committee.slug == kwargs['committee_slug']
   
@@ -134,14 +120,13 @@ class AssistantManager(models.Manager):
         return queryset  
 
 class AssistantProxy(UserAccount):
-    is_assistant = True
     class Meta :
         proxy = True
     objects = AssistantManager()
       
     def save(self  , *args , **kwargs):
         self.type = UserAccount.Types.ASSISTANT
-        self.is_teacher = True
+        self.is_superuser = False
         return super().save(*args , **kwargs)
 
 class Assistant(AssistantProxy):
@@ -171,14 +156,13 @@ class ChairPersonManager(models.Manager):
         return queryset  
 
 class ChairPersonProxy(UserAccount):
-    is_chairperson = True
     class Meta :
         proxy = True
     objects = ChairPersonManager()
-      
+
     def save(self  , *args , **kwargs):
         self.type = UserAccount.Types.CHAIRPERSON
-        self.is_teacher = True
+        self.is_superuser = False
         return super().save(*args , **kwargs)
 
 class ChairPerson(ChairPersonProxy):

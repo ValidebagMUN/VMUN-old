@@ -1,5 +1,5 @@
+from datetime import datetime
 from django.db import models
-from django.utils import timezone
 
 from institution.models import Institution
 
@@ -12,7 +12,7 @@ class Delegation(models.Model):
     head_delegate = models.OneToOneField('authentication.Delegate', on_delete=models.DO_NOTHING, 
                                          help_text="Head Delegate of the delegation", blank=True, null=True, related_name='head_delegate')
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
-    application_date = models.DateField(help_text='Date of application', default=timezone.now, blank=True, null=True,
+    application_date = models.DateField(help_text='Date of application', default=datetime.now, blank=True, null=True,
                                         verbose_name='Application date')
 
     class Meta:

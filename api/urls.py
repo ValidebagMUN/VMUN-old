@@ -4,61 +4,41 @@ from rest_framework_nested import routers
 
 from .views import *
 
-conference_router = routers.SimpleRouter()
-conference_router.register(r'conferences', ConferenceViewSet, 'conferences')
+api_router = routers.DefaultRouter()
+api_router.register(r'conferences', ConferenceViewSet, 'conferences')
+api_router.register(r'delegations', DelegationViewSet, 'delegations')
+api_router.register(r'delegates', DelegateViewSet, 'delegates')
+api_router.register(r'assistants', AssistantViewSet, 'assistants')
+api_router.register(r'chairpeople', ChairPersonViewSet, 'chairpersons')
+api_router.register(r'institutions', InstitutionViewSet, 'institutions')
 
-committee_router = routers.NestedSimpleRouter(
-    conference_router,
+delegation_subrouter = routers.NestedDefaultRouter(
+    api_router,
+    r'delegations',
+    lookup='delegation'
+)
+delegation_subrouter.register(r'delegates', DelegationDelegateViewSet, 'delegates')
+
+conference_subrouter = routers.NestedDefaultRouter(
+    api_router,
     r'conferences',
     lookup='conference'
 )
-committee_router.register(r'committees', CommitteeViewSet, 'committees')
+conference_subrouter.register(r'committees', CommitteeViewSet, 'committees')
 
-resolution_router = routers.NestedSimpleRouter(
-    committee_router,
+committee_subrouter = routers.NestedDefaultRouter(
+    conference_subrouter,
     r'committees',
     lookup='committee'
 )
-resolution_router.register(r'resolutions', ResolutionViewSet, 'resolutions')
+committee_subrouter.register(r'resolutions', ResolutionViewSet, 'resolutions')
+committee_subrouter.register(r'caucuses', CaucusViewSet, 'caucuses')
+committee_subrouter.register(r'gsl', GSLViewSet, 'gsl')
 
-caucus_router = routers.NestedSimpleRouter(
-    committee_router,
-    r'committees',
-    lookup='committee'
-)
-caucus_router.register(r'caucuses', CaucusViewSet, 'caucuses')
-
-gsl_router = routers.NestedSimpleRouter(
-    committee_router,
-    r'committees',
-    lookup='committee'
-)
-gsl_router.register(r'gsl', GSLViewSet, 'gsl')
-
-delegation_router = routers.SimpleRouter()
-delegation_router.register(r'delegations', DelegationViewSet, 'delegations')
-
-delegate_router = routers.SimpleRouter()
-delegate_router.register(r'delegates', DelegateViewSet, 'delegates')
-
-assistant_router = routers.SimpleRouter()
-assistant_router.register(r'assistants', AssistantViewSet, 'assistants')
-
-chairperson_router = routers.SimpleRouter()
-chairperson_router.register(r'chairpeople', ChairPersonViewSet, 'chairpersons')
-
-institution_router = routers.SimpleRouter()
-institution_router.register(r'institutions', InstitutionViewSet, 'institutions')
 
 urlpatterns = [
-    path('', include(conference_router.urls)),
-    path('', include(committee_router.urls)),
-    path('', include(resolution_router.urls)),
-    path('', include(caucus_router.urls)),
-    path('', include(gsl_router.urls)),
-    path('', include(delegation_router.urls)),
-    path('', include(delegate_router.urls)),
-    path('', include(assistant_router.urls)),
-    path('', include(chairperson_router.urls)),
-    path('', include(institution_router.urls)),
+    path('', include(api_router.urls)),
+    path('', include(conference_subrouter.urls)),
+    path('', include(committee_subrouter.urls)),
+    path('', include(delegation_subrouter.urls)),
 ]

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from VMUN.permissions import *
@@ -33,6 +33,7 @@ from notifications.serializers import *
 
 from resolution.models import *
 from resolution.serializers import *
+
 
 class AssistantViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
@@ -78,6 +79,10 @@ class InstitutionViewSet(viewsets.ModelViewSet):
 class DelegationViewSet(viewsets.ModelViewSet):
     serializer_class = DelegationSerializer
     queryset = Delegation.objects.all()
+
+class DelegationDelegateViewSet(viewsets.ModelViewSet):
+    serializer_class = DelegationDelegateSerializer
+    queryset = Delegate.objects.exclude(delegation=None)
 
 class DelegateViewSet(viewsets.ModelViewSet):
     serializer_class = DelegateSerializer
