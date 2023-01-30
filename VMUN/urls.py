@@ -17,17 +17,17 @@ from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
 import conference
-from .views import home_view
-from .views import login_view
+from .views import *
 
 urlpatterns = [
     path('', home_view, name='home'),
-    path('api/', include('api.urls'), name='api'),
+    path('', include('authentication.urls')),
     path('login/', login_view, name='login'),
     path('jet/', include('jet.urls', 'jet')),
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
-    
+    path('api/', include('api.urls'), name='api'),
+
     path("__reload__/", include("django_browser_reload.urls")),
     path('__debug__/', include('debug_toolbar.urls')),
 

@@ -89,6 +89,9 @@ JET_THEMES = [
 # Application definition
 
 INSTALLED_APPS = [
+    # User Authentication
+    'authentication.apps.AuthenticationConfig',
+
     # Django Apps
     'jet.dashboard',
     'jet',
@@ -102,17 +105,19 @@ INSTALLED_APPS = [
     # 3rd Party Apps
     'jquery',
     'rest_framework',
+    'rest_framework.authtoken',
     'debug_toolbar',
     'bootstrap5',
     'corsheaders',
     'tailwind',
     'theme',
     'django_browser_reload',
+    'django_rename_app',
 
     # Local Apps
     'conference',
     'committee',
-    'participants',
+    'importer',
     'caucus',
     'resolution',
     'gsl',
@@ -186,6 +191,8 @@ elif len(sys.argv) > 0:
     DATABASES = {
         "default": dj_database_url.parse(os.getenv("DATABASE_URL")), # type: ignore    
     }
+
+AUTH_USER_MODEL = 'authentication.UserAccount'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
