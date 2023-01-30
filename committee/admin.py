@@ -1,27 +1,21 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Committee, CommitteeSession, ChairPerson
+from .models import Committee, CommitteeSession
 
 
 class CommitteeAdmin(admin.ModelAdmin):
-    list_display = ('slug', 'title', 'chair', 'agenda', 'guide')
-    list_filter = ('slug', 'chair')
-    search_fields = ('slug', 'title', 'chair')
+    list_display = ('slug', 'title', 'chairperson', 'assistant', 'agenda', 'guide')
+    list_filter = ('slug', 'chairperson')
+    search_fields = ('slug', 'title', 'chairperson')
+
+admin.site.register(Committee, CommitteeAdmin)
 
 
 class CommitteeSessionAdmin(admin.ModelAdmin):
-    list_display = ('committee', 'chair', 'session')
-    list_filter = ('committee', 'chair')
-    search_fields = ('committee', 'chair', 'session')
+    list_display = ('committee', 'session')
+    list_filter = ('committee', 'session')
+    search_fields = ('committee', 'session')
 
 
-class ChairPersonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'committee', 'email')
-    list_filter = ('name', 'committee')
-    search_fields = ('name',)
-
-
-admin.site.register(Committee, CommitteeAdmin)
-admin.site.register(CommitteeSession)
-admin.site.register(ChairPerson, ChairPersonAdmin)
+admin.site.register(CommitteeSession, CommitteeSessionAdmin)

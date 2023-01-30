@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from .models import *
 
-class DelegationSerializer(serializers.ModelSerializer):
+class ChairPersonSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Delegation
+        model = ChairPerson
         fields = '__all__'
 
 class DelegateSerializer(serializers.ModelSerializer):
@@ -11,3 +11,7 @@ class DelegateSerializer(serializers.ModelSerializer):
         model = Delegate
         fields = '__all__'
 
+class AssistantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assistant
+        fields = '__all__'

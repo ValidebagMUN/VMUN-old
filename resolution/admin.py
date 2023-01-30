@@ -8,7 +8,7 @@ from .models import Resolution
 class ResolutionAdmin(admin.ModelAdmin):
     list_display = ('topic', 'status', 'committee')
     list_filter = ('committee', 'status')
-    search_fields = ('topic', 'sponsors__name', 'signatories__name')
+    search_fields = ('topic', 'sponsors', 'signatories')
 
 
 admin.site.register(Resolution, ResolutionAdmin)

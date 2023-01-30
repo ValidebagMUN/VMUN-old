@@ -9,3 +9,4 @@ def home_view(request, *args, **kwargs):
         "conference_slug": kwargs.get('conference_slug'),
     }
     return render(request, "home.html", context)
+        
