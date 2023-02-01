@@ -5,6 +5,8 @@
 ### *React Framework*
 
 - Implement Live Update Table Components using React and REST API
+- Add Login Pages
+- Add per User Home Pages
 
 ### *TailwindCSS*
 
@@ -15,9 +17,10 @@
 
 ### *Security*
 
-- Implement JWT Authentication and Permission Levels
+- Implement JWT Authentication
+- Implement API and user Permission Levels
 
 ### *REST API*
 
-- Refactor all REST API Viewsets & Serializers
-- Refactor all REST API URLs
+- Implement drf_spectacular for API Viewsets
+- Refactor all API routers and urls using drf_spectacular Viewsets

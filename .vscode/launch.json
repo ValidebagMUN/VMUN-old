@@ -15,7 +15,6 @@
       "env": {
         "SECRET_KEY": "3131",
         "DEBUG": "True",
-        "DEVELOPMENT": "True",
         "DEFAULT_FROM_EMAIL": "secretariat@validebagmun.org",
         "EMAIL_HOST": "smtp.validebagmun.org",
         "EMAIL_HOST_USER": "secretariat@validebagmun.org",
