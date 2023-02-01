@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
 from pathlib import Path
 import environ
 import os
@@ -30,9 +29,9 @@ STATIC = os.getenv('DJANGO_STATIC', 'False') == 'True'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-DEVELOPMENT = os.getenv("DEVELOPMENT", "False") == "True"
+PRODUCTION = not DEBUG
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost, 127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', "127.0.0.1, localhost").split(',')
 
 if not STATIC:
     SERVER_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
@@ -212,6 +211,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#PASSWORD_HASHERS = [
+#    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+#    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+#    'django.contrib.auth.hashers.Argon2PasswordHasher',
+#    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+#    'django.contrib.auth.hashers.ScryptPasswordHasher',
+#]
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -227,3 +234,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Sentry Integration
+
+if PRODUCTION:
+    SENTRY_DSN = os.getenv("SENTRY_DSN")
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+
+        environment="production",
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True
+    )
