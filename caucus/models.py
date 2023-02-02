@@ -1,5 +1,5 @@
 from django.db import models
-from participants.models import Delegate
+from authentication.models import Delegate
 from committee.models import Committee
 # Create your models here.
 
@@ -15,7 +15,7 @@ class Caucus(models.Model):
     description = models.TextField(verbose_name='Caucus Description', blank=True, null=True)
     start_time = models.DateTimeField(verbose_name='Caucus Start Time')
     duration = models.DurationField(verbose_name='Caucus Duration')
-    committee = models.ForeignKey(Committee, on_delete=models.CASCADE, verbose_name='Committee')
+    committee = models.ForeignKey(Committee, on_delete=models.CASCADE, verbose_name='Committee', to_field='slug')
     proposer = models.ForeignKey(Delegate, on_delete=models.CASCADE, verbose_name='Proposer of the Caucus')
     participants = models.ManyToManyField(Delegate, verbose_name='Caucus Participants', blank=True,
                                           related_name='caucus_participants')

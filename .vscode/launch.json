@@ -12,8 +12,20 @@
       "args": [
         "runserver"
       ],
+      "env": {
+        "SECRET_KEY": "3131",
+        "DEBUG": "True",
+        "DEVELOPMENT": "True",
+        "DEFAULT_FROM_EMAIL": "secretariat@validebagmun.org",
+        "EMAIL_HOST": "smtp.validebagmun.org",
+        "EMAIL_HOST_USER": "secretariat@validebagmun.org",
+        "EMAIL_HOST_PASSWORD": "Dk4mZ1LN",
+        "EMAIL_PORT": "587",
+        "EMAIL_USE_TLS": "False",
+        "ALLOWED_HOSTS": "127.0.0.1, localhost",
+      },
       "django": true,
-      "justMyCode": true
+      "justMyCode": false
     }
   ]
 }

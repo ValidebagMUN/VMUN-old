@@ -9,6 +9,7 @@ class Conference(models.Model):
                                    verbose_name='Institution')
     name = models.CharField(max_length=100, help_text='Name of the conference', verbose_name='Name')
     slug = models.SlugField(help_text='Slug of the conference', verbose_name='Slug')
+    venue = models.CharField(max_length=200, help_text='Venue of the conference', blank=True, verbose_name='Venue')
     email = models.EmailField(help_text='Contact email of the conference', blank=True, verbose_name='Email')
     website = models.CharField(max_length=100, help_text='Website of the conference', blank=True,
                                verbose_name='Website')

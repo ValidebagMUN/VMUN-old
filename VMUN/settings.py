@@ -15,6 +15,7 @@ import environ
 import os
 import sys
 import dj_database_url
+from django.core.management.utils import get_random_secret_key  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,15 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
 STATIC = os.getenv('DJANGO_STATIC', 'False') == 'True'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost, 127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', "localhost, 127.0.0.1").split(',')
 
 if not STATIC:
     SERVER_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
@@ -45,6 +45,12 @@ if not STATIC:
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 JET_THEMES = [
     {
@@ -82,6 +88,9 @@ JET_THEMES = [
 # Application definition
 
 INSTALLED_APPS = [
+    # User Authentication
+    'authentication.apps.AuthenticationConfig',
+
     # Django Apps
     'jet.dashboard',
     'jet',
@@ -95,19 +104,27 @@ INSTALLED_APPS = [
     # 3rd Party Apps
     'jquery',
     'rest_framework',
+    'rest_framework.authtoken',
     'debug_toolbar',
     'bootstrap5',
+    'corsheaders',
+    'tailwind',
+    'theme',
+    'django_browser_reload',
+    'django_rename_app',
 
     # Local Apps
     'conference',
     'committee',
-    'participants',
+    'importer',
     'caucus',
     'resolution',
     'gsl',
     'api',
     'institution',
 ]
+
+TAILWIND_APP_NAME = 'theme'
 
 # Security
 
@@ -118,12 +135,16 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'VMUN.urls'
 
@@ -150,25 +171,27 @@ WSGI_APPLICATION = 'VMUN.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets')]
 STATIC_URL = 'static/'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if DEVELOPMENT_MODE is True:
+if DEBUG is True:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+elif len(sys.argv) > 0:
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
-        "default": dj_database_url.parse(os.getenv("DATABASE_URL")),
+        "default": dj_database_url.parse(os.getenv("DATABASE_URL")), # type: ignore    
     }
+
+AUTH_USER_MODEL = 'authentication.UserAccount'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
